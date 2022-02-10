@@ -1,6 +1,8 @@
 package com.codev.foodimpact.entities;
 
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -13,14 +15,16 @@ import javax.persistence.Table;
 @Table(name = "favori", schema = "foodimpact", catalog = "")
 public class Favori {
   @Id
-  @GeneratedValue(strategy = GenerationType.AUTO)
+  @GeneratedValue(strategy = GenerationType.IDENTITY)
   private long id;
 
   @ManyToOne
+  @JsonBackReference("util-fav")
   @JoinColumn(name = "utilisateur", referencedColumnName = "id", nullable = false)
   private Utilisateur utilisateur;
 
   @ManyToOne
+  @JsonBackReference("prod-fav")
   @JoinColumn(name = "codebarre", referencedColumnName = "codebarre", nullable = false)
   private Produit codebarre;
 
@@ -42,8 +46,6 @@ public class Favori {
   public Produit getCodebarre() {
     return codebarre;
   }
-  public void setCodebarre(long Produit) {
-    this.codebarre = codebarre;
-  }
+  public void setCodebarre(Produit Produit) { this.codebarre = Produit; }
 
 }

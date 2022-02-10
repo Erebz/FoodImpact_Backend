@@ -1,5 +1,8 @@
 package com.codev.foodimpact.entities;
 
+import com.codev.foodimpact.validations.ValidAjoutUtilisateur;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+
 import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -8,6 +11,8 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Null;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
@@ -18,31 +23,38 @@ import java.util.Objects;
 public class Utilisateur implements Serializable {
 
   @Id
-  @GeneratedValue(strategy = GenerationType.AUTO)
-  private long id;
+  @Null(groups = ValidAjoutUtilisateur.class)
+  @GeneratedValue(strategy = GenerationType.IDENTITY)
+  private Long id;
 
   @Basic
-  @Column(name = "nom", insertable =false, updatable=false, nullable = false)
+  @NotNull(groups = ValidAjoutUtilisateur.class)
+  @Column(name = "nom", nullable = false)
   private String nom;
 
   @Basic
-  @Column(name = "prenom", insertable =false, updatable=false, nullable = false)
+  @NotNull(groups = ValidAjoutUtilisateur.class)
+  @Column(name = "prenom", nullable = false)
   private String prenom;
 
   @Basic
-  @Column(name = "mdp", insertable =false, updatable=false, nullable = false)
+  @NotNull(groups = ValidAjoutUtilisateur.class)
+  @Column(name = "mdp", nullable = false)
   private String mdp;
 
   @Basic
-  @Column(name = "mail", insertable =false, updatable=false, nullable = false)
+  @NotNull(groups = ValidAjoutUtilisateur.class)
+  @Column(name = "mail", nullable = false)
   private String mail;
 
   @OneToMany(mappedBy = "utilisateur")
-  private List<Favori> favoris = new ArrayList<Favori>();
+  @Null(groups = ValidAjoutUtilisateur.class)
+  @JsonManagedReference("util-fav")
+  private List<Favori> favoris;
 
   // Getters, setters
-  public long getId() { return id; }
-  public void setId(long id) {
+  public Long getId() { return id; }
+  public void setId(Long id) {
     this.id = id;
   }
 

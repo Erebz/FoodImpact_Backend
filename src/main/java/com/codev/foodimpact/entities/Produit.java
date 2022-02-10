@@ -1,5 +1,7 @@
 package com.codev.foodimpact.entities;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+
 import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -16,24 +18,24 @@ import java.util.List;
 public class Produit {
 
   @Id
-  @GeneratedValue(strategy = GenerationType.AUTO)
-  private long codebarre;
+  private Long codebarre;
 
   @Basic
-  @Column(name = "nom", insertable =false, updatable=false, nullable = false)
+  @Column(name = "nom", nullable = false)
   private String nom;
 
   @Basic
-  @Column(name = "categorie", insertable =false, updatable=false, nullable = false)
+  @Column(name = "categorie", nullable = false)
   private String categorie;
 
   @OneToMany(mappedBy = "codebarre")
+  @JsonManagedReference("prod-fav")
   private List<Favori> favoris = new ArrayList<Favori>();
 
 
   // Getters, setters
-  public long getCodebarre() { return codebarre; }
-  public void setCodebarre(long codebarre) { this.codebarre = codebarre; }
+  public Long getCodebarre() { return codebarre; }
+  public void setCodebarre(Long codebarre) { this.codebarre = codebarre; }
 
   public String getNom() {
     return nom;
